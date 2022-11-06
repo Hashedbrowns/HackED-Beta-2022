@@ -18,10 +18,13 @@
 #         print(f"[{cur_time}] processed: {e}")
 #         calls[cur_time] += 1
 
-import requests
+import json
+import polyline
+
+with open("route.json","r+") as rf:
+    route=json.load(rf)
 
 
-
-req=requests.get("http://uofadirections.herokuapp.com/api")
-
-print(req.text)
+for x in route["route"]:
+    pts=polyline.decode(x["polyline"])
+    print(pts)

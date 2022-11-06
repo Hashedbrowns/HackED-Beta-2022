@@ -83,7 +83,7 @@ def addPeds(peds,doors,N,weight=0.3):
         ped_edge={"pt1":s_bldg,"pt2":e_bldg}
         ped_edge["dist"] = distPoints(s["lat"],s["lon"],e["lat"],e["lon"])*weight
         ped_edge["polyline"] =  polyline.encode([[s["lat"],s["lon"]],[e["lat"],e["lon"]]])     
-        ped_edges.append(e_edge)
+        ped_edges.append(ped_edge)
 
 
         doors[s['bldg']].append(s_bldg)
@@ -129,6 +129,7 @@ def getEdge(edges,p1,p2):
         if e["pt1"]["id"] == p1 and e["pt2"]["id"] == p2:
             return e
         if e["pt1"]["id"] == p2 and e["pt2"]["id"] == p1:
+            e["polyline"] = polyline.encode(list(reversed(polyline.decode(e["polyline"]))))
             temp=e["pt1"]
             e["pt1"]= e["pt2"]
             e["pt2"]=temp
@@ -190,26 +191,30 @@ def reid_edges(edges,name_to_door):
     return edges
 
 
-def get_route(start,end):
-    doors, N = generateJson("Map Data - Buildings.csv")
+def get_route(start,end,iweight):
+    doors, N = generateJson("MapData-Buildings.csv")
 
-    peds = getPedways("Map Data - Pedways.csv")
-    ped_edges = addPeds(peds,doors,N)
+    peds = getPedways("MapData-Pedways.csv")
+    ped_edges = addPeds(peds,doors,N,iweight)
 
 
     name_to_door = { d["name"]:d["id"] for reg in doors for d in doors[reg]}
     N = len(name_to_door)
 
-    int_edges = interalDist(doors)
-    ext_edges = externalDist(doors)
+    int_edges = interalDist(doors,iweight)
+    with open("ex_edges.json","r+") as rf:
+        ext_edges=json.load(rf)
 
     all_edges = reid_edges(int_edges,name_to_door) + ext_edges + ped_edges
+    with open("all_edges.json","w+") as wf:
+        json.dump(all_edges,wf,indent=4)
 
 
     route = search(all_edges, doors[start][0]["id"], doors[end][0]["id"], N)
+    route["polyline"] =  polyline.encode([ p for x in route["route"] for p in polyline.decode(x["polyline"])])
     return route
 
 if __name__ == "__main__":
-    route = get_route("CCIS","ESB")
+    route = get_route("HUB","C",0.2)
     with open("route.json","w+") as wf:
         json.dump(route,wf,indent=4)
