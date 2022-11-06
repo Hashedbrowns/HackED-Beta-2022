@@ -30,23 +30,6 @@ def getPedways(filename):
         json.dump(fpeds,wf,indent=4)
     return fpeds
 
-        
-    
-
-def generateEdgeList(sheets):
-    edges = []
-    visted=set()
-    for reg1 in sheets:
-        for pt1 in sheets[reg1]:
-            for reg2 in sheets:
-                for pt2 in sheets[reg2]:
-                    if pt1["id"]!=pt2["id"] and (pt2["id"],pt1["id"]) not in visted and reg1 != reg2:
-                        edges.append((pt1,pt2))
-                        visted.add((pt1["id"],pt2["id"]))
-
-    with open("gedges.json","w+") as wf:
-        json.dump(edges,wf,indent=4)
-
 
 def distPoints(lat1,lon1,lat2,lon2):
     R = 6373.0
@@ -106,8 +89,6 @@ def addPeds(peds,doors,N,weight=0.3):
         doors[s['bldg']].append(s_bldg)
         doors[e['bldg']].append(e_bldg)
     return ped_edges
-    
-
 
 def interalDist(sheets,weight=0.3):
     int_edges = []
@@ -121,9 +102,6 @@ def interalDist(sheets,weight=0.3):
                     edge["dist"] = distPoints(pt1["loc"][0],pt1["loc"][1],pt2["loc"][0],pt2["loc"][1])*weight
                     edge["polyline"] = polyline.encode([pt1["loc"],pt2["loc"]])
                     int_edges.append(edge)
-    
-    with open("iedges.json","w+") as wf:
-        json.dump(int_edges,wf,indent=4)
     
     return int_edges
 
@@ -212,32 +190,26 @@ def reid_edges(edges,name_to_door):
     return edges
 
 
-doors, N = generateJson("Map Data - Buildings.csv")
+def get_route(start,end):
+    doors, N = generateJson("Map Data - Buildings.csv")
 
-peds=getPedways("Map Data - Pedways.csv")
-
-ped_edges = addPeds(peds,doors,N)
-
-
-with open("ped_edges.json","w+") as wf:
-    json.dump(ped_edges,wf,indent=4)
-
-name_to_door = { d["name"]:d["id"] for reg in doors for d in doors[reg]}
-N = len(name_to_door)
+    peds = getPedways("Map Data - Pedways.csv")
+    ped_edges = addPeds(peds,doors,N)
 
 
-int_edges = interalDist(doors)
-ext_edges = externalDist(doors)
+    name_to_door = { d["name"]:d["id"] for reg in doors for d in doors[reg]}
+    N = len(name_to_door)
+
+    int_edges = interalDist(doors)
+    ext_edges = externalDist(doors)
+
+    all_edges = reid_edges(int_edges,name_to_door) + ext_edges + ped_edges
 
 
-all_edges = reid_edges(int_edges,name_to_door) + ext_edges + ped_edges
+    route = search(all_edges, doors[start][0]["id"], doors[end][0]["id"], N)
+    return route
 
-with open("alledges.json","w+") as wf:
-    json.dump(all_edges,wf,indent=4)
-
-
-route=search(all_edges,12,0,N)
-
-with open("route.json","w+") as wf:
-    json.dump(route,wf,indent=4)
-
+if __name__ == "__main__":
+    route = get_route("CCIS","ESB")
+    with open("route.json","w+") as wf:
+        json.dump(route,wf,indent=4)

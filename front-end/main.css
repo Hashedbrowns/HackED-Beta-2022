@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 html,
 body {
   padding: 0;
@@ -45,3 +46,59 @@ body {
       "sidebar  map";
   }
 }
+=======
+* {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.building-search {
+  height: 100px;
+}
+
+.main-content {
+  display: table;
+	width: 100%;
+	height: 100%;
+}
+#map {
+  display: table-cell;
+	width: 85%;
+	vertical-align: top;
+}
+
+/* The sidebar menu */
+.sidenav {
+    display: table-cell;
+	  width: 15%;
+	  vertical-align: top;
+    display: grid;
+}
+  
+  /* The navigation menu links */
+  .sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+  }
+  
+  /* When you mouse over the navigation links, change their color */
+  .sidenav a:hover {
+    color: #f1f1f1;
+  }
+  
+  /* Style page content */
+  .main {
+    margin-left: 160px; /* Same as the width of the sidebar */
+    padding: 0px 10px;
+  }
+  
+  /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }
+>>>>>>> 9afe0517754fa79f3fcd2ddac2b3673fb5cacacd
