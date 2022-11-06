@@ -109,7 +109,7 @@
       // Handle the click and submit event and disable the browsers default action
       // Make calls to our backend and then handle the response.
       const formSubmitHandler = (event) => {
-        event.preventDefault()
+        // event.preventDefault()
         api_endpoint = 'http://craiglobo1.pythonanywhere.com/api/v1/route'
         axios.get(`${api_endpoint}?start=${start}&end=${end}`).then(() => {
           // do stuff
