@@ -1,13 +1,8 @@
-from json import JSONEncoder
-
-## return object
-## startname, startlon, startlat
-## endname, endlon, endlat
-## distance, polyline
-
-
-
 class Route():
+    '''
+    A Route is a set of two geographical points. If an API call has been made then it will likely
+    have a distance and a polyline as well.
+    '''
     def __init__(self, p1, p2, distance=None, polyline=None) -> None:
         self.__p1 = p1
         self.__p2 = p2

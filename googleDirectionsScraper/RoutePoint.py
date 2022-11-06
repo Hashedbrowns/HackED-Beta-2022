@@ -1,4 +1,7 @@
 class RoutePoint:
+    '''
+    A RoutePoint is a single latitude, longtitude pair with a name.
+    '''
     def __init__(self, name, id, lat, long) -> None:
         self.__name = name
         self.__id = id

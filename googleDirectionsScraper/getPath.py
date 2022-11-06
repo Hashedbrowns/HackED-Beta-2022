@@ -1,11 +1,13 @@
 import googlemaps
 from RoutePoint import RoutePoint
 from datetime import datetime
-
-class EmptyAPIResponse(Exception):
-    pass
+import ProjectCustomExceptions
 
 def getPath(point1: RoutePoint , point2: RoutePoint):
+    '''
+    Takes a pair of RoutePoints and gets the Google Directions API response for them.
+    If the response is empty, it will raise an error.
+    '''
     gmaps = googlemaps.Client(key='AIzaSyAgMqgptHbdD-oXy0McQQk9XPW6thfo0T4')
 
     # Request directions via public transit
@@ -15,5 +17,5 @@ def getPath(point1: RoutePoint , point2: RoutePoint):
                                         mode="walking",
                                         departure_time=now)
     if len(directions_result) == 0:
-        raise EmptyAPIResponse
+        raise ProjectCustomExceptions.EmptyAPIResponse
     return directions_result
