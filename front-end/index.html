@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-<<<<<<< HEAD
   <meta charset="UTF-8">
   <title>Route Finder</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -35,8 +34,8 @@
           <option value='CME'>Chemical/Materials Engineering Building (CME)</option>
           <option value='CSC'>Computing Science Centre (CSC)</option>
           <option value='DICE'>Donadeo Innovation Centre for Engineering (DICE)</option>
-          <option value='ED-N'>Education Centre North (ED-N)</option>
-          <option value='ED-S'>Education Centre South (ED-S)</option>
+          <option value='ED_N'>Education Centre North (ED-N)</option>
+          <option value='ED_S'>Education Centre South (ED-S)</option>
           <option value='ESB'>Earth Sciences Building (ESB)</option>
           <option value='ETLC'>Engineering Teaching and Learning Complex (ETLC)</option>
           <option value='FAB'>Fine Arts Building (FAB)</option>
@@ -72,8 +71,8 @@
           <option value='CME'>Chemical/Materials Engineering Building (CME)</option>
           <option value='CSC'>Computing Science Centre (CSC)</option>
           <option value='DICE'>Donadeo Innovation Centre for Engineering (DICE)</option>
-          <option value='ED-N'>Education Centre North (ED-N)</option>
-          <option value='ED-S'>Education Centre South (ED-S)</option>
+          <option value='ED_N'>Education Centre North (ED-N)</option>
+          <option value='ED_S'>Education Centre South (ED-S)</option>
           <option value='ESB'>Earth Sciences Building (ESB)</option>
           <option value='ETLC'>Engineering Teaching and Learning Complex (ETLC)</option>
           <option value='FAB'>Fine Arts Building (FAB)</option>
@@ -104,13 +103,17 @@
     <script>
 
       form = document.getElementById('superMegaSearchForm')
+      start = document.getElementById('from').value
+      end = document.getElementById('to').value
 
       // Handle the click and submit event and disable the browsers default action
       // Make calls to our backend and then handle the response.
       const formSubmitHandler = (event) => {
         event.preventDefault()
-        axios.get('https://uofadirections.herokuapp.com/api').then(() => {
+        api_endpoint = 'https://uofadirections.herokuapp.com/api'
+        axios.get(`${api_endpoint}?start=${start}&end=${end}`).then(() => {
           // do stuff
+          console.log('from: ', from, 'to: ', to)
           console.log('got that niiiiice response.');
         })
         console.log('hello i have prevented the default from happening');
