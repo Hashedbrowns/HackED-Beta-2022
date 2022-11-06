@@ -34,7 +34,7 @@ def main():
 
     # ensure that we make no more than 1000 calls to the API. 
     danger_counter = 0
-    while routes and danger_counter < 1000:
+    while routes and danger_counter < 2500:
         now = datetime.now()
         cur_time = (now-start).seconds // 60
         if cur_time not in calls:
@@ -54,9 +54,9 @@ def main():
                 path = getPath(p1, p2)
                 route = Route(p1, p2, path[0]['legs'][0]['distance'], path[0]['overview_polyline']['points'])
                 appendedRoutes.append(route)
+                calls[cur_time] += 1
             else:
                 appendedRoutes.append(new_route)
-            calls[cur_time] += 1
 
 
     with open('edges-appended.json', 'w+') as wf:
