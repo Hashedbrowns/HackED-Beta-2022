@@ -19,5 +19,5 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', views.routeResponse),
+    path(r'^get_item/$', views.routeResponse),
 ]
