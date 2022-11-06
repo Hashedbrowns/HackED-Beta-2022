@@ -16,7 +16,7 @@ def generateJson(filename):
     with open("doors.json","w+") as wf:
         json.dump(doors,wf,indent=4)
     
-    return doors,len(sheets)
+    return doors, len(sheets)
 
 def getPedways(filename):
     fpeds=[]
@@ -64,30 +64,49 @@ def distPoints(lat1,lon1,lat2,lon2):
     distance = R * c
     return distance
 
-def addPeds(peds,doors, N, weight=1):
+def addPeds(peds,doors,N,weight=0.3):
     ped_edges=[]
     visted = set()
-    k=N
+    k= N
     for i in range(len(peds)):
         s,e = peds[i]
         s_bldg = {"id":k,"name":f"{s['bldg']}-ped_{e['bldg']}","loc":[s["lat"],s["lon"]]}
+        k += 1
         e_bldg = {"id":k,"name":f"{e['bldg']}-ped_{s['bldg']}","loc":[e["lat"],e["lon"]]}
+        k += 1
+
+
         if s['bldg'] not in doors:
             doors[s['bldg']] = []
-        doors[s['bldg']].append(s_bldg)
-        k += 1
-        for d in doors[s['bldg']]:
-            ped_edge={"pt1":s_bldg,"pt2":d}
+        
+        if e['bldg'] not in doors:
+            doors[e['bldg']] = []
 
-            ped_edge["dist"] = distPoints(s["lat"],s["lon"],*d["loc"])
-            ped_edge["polyline"] =  polyline.encode([[s["lat"],s["lon"]],d["loc"]])
+        for d in doors[s['bldg']]:
+            s_edge={"pt1":s_bldg,"pt2":d}
+
+            s_edge["dist"] = distPoints(s["lat"],s["lon"],*d["loc"])
+            s_edge["polyline"] =  polyline.encode([[s["lat"],s["lon"]],d["loc"]])
+            ped_edges.append(s_edge)
+
+        for d in doors[e['bldg']]:
+            e_edge={"pt1":e_bldg,"pt2":d}
+
+            e_edge["dist"] = distPoints(e["lat"],e["lon"],*d["loc"])*weight
+            e_edge["polyline"] =  polyline.encode([[e["lat"],e["lon"]],d["loc"]])
+            ped_edges.append(e_edge)
 
 
         ped_edge={"pt1":s_bldg,"pt2":e_bldg}
-        ped_edge["dist"] = distPoints(s["lat"],s["lon"],e["lat"],e["lon"])
-        print()
-        ped_edge["polyline"] =  polyline.encode([[s["lat"],s["lon"]],[e["lat"],e["lon"]]])
-        
+        ped_edge["dist"] = distPoints(s["lat"],s["lon"],e["lat"],e["lon"])*weight
+        ped_edge["polyline"] =  polyline.encode([[s["lat"],s["lon"]],[e["lat"],e["lon"]]])     
+        ped_edges.append(e_edge)
+
+
+        doors[s['bldg']].append(s_bldg)
+        doors[e['bldg']].append(e_bldg)
+    return ped_edges
+    
 
 
 def interalDist(sheets,weight=0.3):
@@ -194,24 +213,30 @@ def reid_edges(edges,name_to_door):
 
 
 doors, N = generateJson("Map Data - Buildings.csv")
-name_to_door = { d["name"]:d["id"] for reg in doors for d in doors[reg]}
 
 peds=getPedways("Map Data - Pedways.csv")
 
-#ped_edges = addPeds(peds,doors,len(name_to_door))
+ped_edges = addPeds(peds,doors,N)
+
+
+with open("ped_edges.json","w+") as wf:
+    json.dump(ped_edges,wf,indent=4)
+
+name_to_door = { d["name"]:d["id"] for reg in doors for d in doors[reg]}
+N = len(name_to_door)
 
 
 int_edges = interalDist(doors)
 ext_edges = externalDist(doors)
 
 
-all_edges = reid_edges(int_edges,name_to_door) + ext_edges
+all_edges = reid_edges(int_edges,name_to_door) + ext_edges + ped_edges
 
 with open("alledges.json","w+") as wf:
     json.dump(all_edges,wf,indent=4)
 
 
-route=search(all_edges,0,38,N)
+route=search(all_edges,12,0,N)
 
 with open("route.json","w+") as wf:
     json.dump(route,wf,indent=4)
