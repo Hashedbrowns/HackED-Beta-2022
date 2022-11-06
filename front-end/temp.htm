@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Route Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./main.css">
+</head>
+
+<body>
+    <!--Make sure the form has the autocomplete function switched off:-->
+    <!-- <form class = "building-search" autocomplete="off" action="/action_page.php">
+        <div class="autocomplete" >
+            <input id="myInput" type="text" name="myCountry" placeholder="CCIS">
+        </div>
+        <input type="submit">
+    </form> -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" style = "padding: 10px">
+      <a class="navbar-brand" href="#">BearPath</a>
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarCollapse" style="">
+        <form class="form-inline mt-2 mt-md-0" style = "display: flex">
+          <input class="form-control mr-sm-2" style = "margin: 10px" type="text" placeholder="Search" aria-label="Search">
+          <input class="form-control mr-sm-2" style = "margin: 10px" type="text" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 mr-sm-2" style = "padding: 10px; margin: 10px" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+    <div id="map"></div>
+    <div class = "footer"></div>
+        <script>
+            function initMap() {
+                var location = { lat: 53.521331248, lng: -113.521331248 };
+                var map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 15,
+                    center: location
+                });
+                var marker = new google.maps.Marker({ 
+                    position: location,
+                    map: map
+                });
+            }
+        </script>
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUtl5270Zd73fBYTG5aoPNknA9rs3SRfs&callback=initMap"></script>
+          <script>
+            const response = {
+            total_dist: 0.30086014678074685,
+            route: [
+              {
+                pt1: {
+                  id: 0,
+                  name: "CCIS-Left 1",
+                  loc: [53.527979666330495, -113.52624824052],
+                },
+                pt2: {
+                  id: 4,
+                  name: "ATH-Left",
+                  loc: [53.5270417441689, -113.526625965725],
+                },
+                dist: 0.10727270513267456,
+                polyline: "{tueI`b|sTzDjA",
+              },
+              {
+                pt1: {
+                  id: 4,
+                  name: "ATH-Left",
+                  loc: [53.5270417441689, -113.526625965725],
+                },
+                pt2: {
+                  id: 2,
+                  name: "ATH-Right",
+                  loc: [53.5263922638098, -113.52667388707],
+                },
+                dist: 0.02169331404143356,
+                polyline: "}jueItd|sTaCG",
+              },
+              {
+                pt1: {
+                  id: 2,
+                  name: "ATH-Right",
+                  loc: [53.5263922638098, -113.52667388707],
+                },
+                pt2: {
+                  id: 18,
+                  name: "SUB-North East",
+                  loc: [53.5254617484598, -113.526841563672],
+                },
+                dist: 0.10409319564316637,
+                polyline: "}jueItd|sTxD`@",
+              },
+              {
+                pt1: {
+                  id: 18,
+                  name: "SUB-North East",
+                  loc: [53.5254617484598, -113.526841563672],
+                },
+                pt2: {
+                  id: 19,
+                  name: "SUB-South West",
+                  loc: [53.52496412041231, -113.527442334603],
+                },
+                dist: 0.020439195042359744,
+                polyline: "ceueIve|sTbBvB",
+              },
+              {
+                pt1: {
+                  id: 19,
+                  name: "SUB-South West",
+                  loc: [53.52496412041231, -113.527442334603],
+                },
+                pt2: {
+                  id: 38,
+                  name: "VVC-North",
+                  loc: [53.5245800291838, -113.527133164879],
+                },
+                dist: 0.04736173692111262,
+                polyline: "_bueIni|sTjA}@",
+              },
+            ],
+          };
+
+          response.route.forEach((element, index, array) => {
+            const coordinates = element.polyline
+
+            const walkPath = new google.maps.Polyline({
+              path: coordinates,
+              geodesic: true,
+              strokeColor: "#FF0000",
+              strokeOpacity: 1.0,
+              strokeWidth: 2,
+            });
+
+          walkPath.setMap(map);
+
+          })
+        </script>
+</body>
+
+</html>
