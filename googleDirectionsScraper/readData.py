@@ -3,13 +3,16 @@ from RoutePoint import RoutePoint
 from Route import Route
 import jsonpickle
 import ProjectCustomExceptions
+import os
+ 
 
 
 def readData(filename):
     '''
     Opens a data file for reading.
     '''
-    with open(filename, "r") as read_file:
+    print("File location using os.getcwd():", os.getcwd())
+    with open(os.getcwd() + '/googleDirectionsScraper/' + filename, "r") as read_file:
         data = json.load(read_file)
 
     return data
@@ -43,7 +46,7 @@ def getRoutePairsAppended():
 
     # read the data from the appended file for comparing against the 
     #  data = readData('edges-appended.json')
-    with open('edges-appended.json', 'r') as fi:
+    with open(os.getcwd() + '/googleDirectionsScraper/' + 'edges-appended.json', 'r') as fi:
         file_contents = fi.read()
         if len(file_contents) == 0:
             raise ProjectCustomExceptions.FileEmptyError
