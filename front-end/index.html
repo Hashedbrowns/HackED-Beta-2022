@@ -110,11 +110,11 @@
       // Make calls to our backend and then handle the response.
       const formSubmitHandler = (event) => {
         event.preventDefault()
-        api_endpoint = 'https://uofadirections.herokuapp.com/api'
+        api_endpoint = 'http://craiglobo1.pythonanywhere.com/api/v1/route'
         axios.get(`${api_endpoint}?start=${start}&end=${end}`).then(() => {
           // do stuff
           console.log('from: ', from, 'to: ', to)
-          console.log('got that niiiiice response.');
+          console.log('got that niiiiice response.'); 
         })
         console.log('hello i have prevented the default from happening');
       }

@@ -20,11 +20,15 @@
 
 import json
 import polyline
-
-with open("route.json","r+") as rf:
-    route=json.load(rf)
+import requests
 
 
-for x in route["route"]:
-    pts=polyline.decode(x["polyline"])
-    print(pts)
+req=requests.get("http://uofadirections.herokuapp.com/api/?start=CSC&end=CCIS&iweight=0.2")
+print(req.headers)
+# with open("route.json","r+") as rf    :
+#     route=json.load(rf)
+
+
+# for x in route["route"]:
+#     pts=polyline.decode(x["polyline"])
+#     print(pts)
