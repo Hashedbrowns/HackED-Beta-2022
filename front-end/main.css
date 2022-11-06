@@ -1,54 +1,47 @@
-* {
-    margin: 0;
-    padding: 0;
-    height: 100%;
+html,
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  font-family: "Avenir Next";
+}
+.header {
+  grid-area: header;
+  background-color: #0079c1;
+}
+.sidebar {
+  grid-area: sidebar;
+  background-color: #333;
 }
 
-.building-search {
-  height: 100px;
-}
-
-.main-content {
-  display: table;
-	width: 100%;
-	height: 100%;
-}
 #map {
-  display: table-cell;
-	width: 85%;
-	vertical-align: top;
+  height: 100%;
+  /* The height is 400 pixels */
+  width: 100%;
+  /* The width is the width of the web page */
 }
-
-/* The sidebar menu */
-.sidenav {
-    display: table-cell;
-	  width: 15%;
-	  vertical-align: top;
-    display: grid;
+.wrapper {
+  display: grid;
+  grid-template-rows: 25% 25% auto;
+  grid-template-areas:
+    "header"
+    "sidebar"
+    "map";
+  width: 100vw;
+  height: 100vh;
 }
-  
-  /* The navigation menu links */
-  .sidenav a {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
+.box {
+  color: #fff;
+  padding: 10px;
+  font-size: 20px;
+}
+@media only screen and (min-width: 544px) {
+  .wrapper {
+    grid-template-columns: 20% auto;
+    grid-template-rows: 60px auto;
+    grid-template-areas:
+      "header   header"
+      "sidebar  map";
   }
-  
-  /* When you mouse over the navigation links, change their color */
-  .sidenav a:hover {
-    color: #f1f1f1;
-  }
-  
-  /* Style page content */
-  .main {
-    margin-left: 160px; /* Same as the width of the sidebar */
-    padding: 0px 10px;
-  }
-  
-  /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
-  @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
-  }
+}

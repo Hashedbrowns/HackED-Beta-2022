@@ -52,20 +52,19 @@
           </form>
         </div>
     </nav>
-    <div class = "main-content">
-        <div id="map"></div>
+    <div id="map"></div>
+    <div class = "footer"></div>
         <script>
             function initMap() {
                 var location = { lat: 53.521331248, lng: -113.521331248 };
                 var map = new google.maps.Map(document.getElementById("map"), {
-                    zoom: 4,
+                    zoom: 18,
                     center: location
                 });
             }
         </script>
         <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUtl5270Zd73fBYTG5aoPNknA9rs3SRfs&callback=initMap"></script>
-    </div>
 </body>
 
 </html>
