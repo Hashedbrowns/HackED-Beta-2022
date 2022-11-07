@@ -14,7 +14,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" style="padding: 10px">
+  <nav id = "navbar" class="navbar navbar-expand-md navbar-dark bg-dark" style="padding: 10px">
     <a class="navbar-brand" href="#">BearPath</a>
     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse"
       aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +22,7 @@
     </button>
     <div class="navbar-collapse collapse" id="navbarCollapse">
       <form class="form-inline mt-2 mt-md-0" style="display: flex" id="superMegaSearchForm">
-        <select class="form-select form-select-sm mr-sm-2 mt-3 mb-3" id="from">
+        <select class="form-select form-select-sm mr-sm-2 mt-3 mb-3 ml-2 mr-2" id="from">
           <option value='ADM'>Administration (ADM)</option>
           <option value='AF'>Agriculture Forestry Centre (AF)</option>
           <option value='ASH'>Assiniboia Hall (ASH)</option>
@@ -59,7 +59,7 @@
           <option value='TL'>Tory Building (TL)</option>
           <option value='VVC'>Van Vliet Complex (VVC)</option>
         </select>
-        <select class="form-select mr-sm-2 mt-3 mb-3" id="to">
+        <select class="form-select mr-sm-2 mt-3 mb-3 ml-2 mr-2" id="to">
           <option value='ADM'>Administration (ADM)</option>
           <option value='AF'>Agriculture Forestry Centre (AF)</option>
           <option value='ASH'>Assiniboia Hall (ASH)</option>
@@ -100,6 +100,7 @@
           type="submit">Search</button>
       </form>
     </div>
+    </nav>
     <script>
 
       form = document.getElementById('superMegaSearchForm')
